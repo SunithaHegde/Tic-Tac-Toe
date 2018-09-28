@@ -10,11 +10,17 @@ const reducer = (state = {
 	},action) => {
 	switch(action.type) {
 		case "SET_SQUARE": 
-			return handleState(state, action.payload.index);
+			state = handleState(Object.assign({}, state), action.payload.index);
+			/*state = {
+				isXNextPlayer: ! state.isXNextPlayer,
+				squares: updateSquare(state, action.payload.index)
+            };*/
+			break;
 		default: 
-			return state;
+			break;
 	}	
-	
+	return state;
+
 };
 
 const store = createStore(
@@ -25,14 +31,11 @@ store.subscribe(() => {
 	console.log("state updated ", store.getState())
 });
 
+
 function handleState(currentState, index){
-		/*if(squares[index] || this.findWinner()){
-			return;	
-		}*/
-		var newState = currentState;
-	    newState.squares[index] = newState.isXNextPlayer ? 'X' : 'O';
-		newState.isXNextPlayer = ! newState.isXNextPlayer;
-		return newState;
+	    currentState.squares[index] = currentState.isXNextPlayer ? 'X' : 'O';
+		currentState.isXNextPlayer = ! currentState.isXNextPlayer;
+		return currentState;
 			
 }	
 render(
